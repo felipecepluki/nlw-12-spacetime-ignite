@@ -9,7 +9,7 @@ This is the 12th NLW (Next Level Week) organized for free by Rocketseat, with th
 [ x ] Class 01 - Starting the project from end to end <br />
 [ x ] Class 02 - Advancing the Back-end and Front-End
 <br />
-[] Class 03 - Integrating UI with libraries
+[ x ] Class 03 - Integrating UI with libraries
 <br />
 [] Class 04 - Integrating web and mobile projects
 <br />

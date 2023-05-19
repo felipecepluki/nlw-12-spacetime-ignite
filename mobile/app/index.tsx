@@ -1,5 +1,11 @@
 import { StatusBar } from 'expo-status-bar'
+import { useEffect } from 'react'
+import { useRouter } from 'expo-router'
 import { ImageBackground, View, Text, TouchableOpacity } from 'react-native'
+import { makeRedirectUri, useAuthRequest } from 'expo-auth-session'
+import { styled } from 'nativewind'
+
+import * as SecureStore from 'expo-secure-store'
 
 import {
   useFonts,
@@ -9,13 +15,10 @@ import {
 
 import { BaiJamjuree_700Bold } from '@expo-google-fonts/bai-jamjuree'
 
-import { styled } from 'nativewind'
-
-import blurBg from './src/assets/bg-blur.png'
-import Stripes from './src/assets/stripes.svg'
-import NLWLogo from './src/assets/nlw-spacetime-logo.svg'
-import { makeRedirectUri, useAuthRequest } from 'expo-auth-session'
-import { useEffect } from 'react'
+import blurBg from '../src/assets/bg-blur.png'
+import Stripes from '../src/assets/stripes.svg'
+import NLWLogo from '../src/assets/nlw-spacetime-logo.svg'
+import { api } from '../src/lib/api'
 
 const StyledStripes = styled(Stripes)
 
@@ -27,13 +30,15 @@ const discovery = {
 }
 
 export default function App() {
+  const router = useRouter()
+
   const [hasLoadedFonts] = useFonts({
     Roboto_400Regular,
     Roboto_700Bold,
     BaiJamjuree_700Bold,
   })
 
-  const [request, response, promptAsync] = useAuthRequest(
+  const [request, response, signInWithGithub] = useAuthRequest(
     {
       clientId: '64e1c30ace3d30e0adf4',
       scopes: ['identity'],
@@ -44,10 +49,26 @@ export default function App() {
     discovery,
   )
 
+  async function handleGithubOAuthCode(code: String) {
+    const response = await api.post('/register', {
+      code,
+    })
+
+    const { token } = response.data
+    await SecureStore.setItemAsync('token', token)
+    router.push('/memories')
+  }
+
   useEffect(() => {
+    /*    console.log(
+      makeRedirectUri({
+        scheme: 'nlwspacetime',
+      }),
+    ) */
+
     if (response?.type === 'success') {
       const { code } = response.params
-      console.log(code)
+      handleGithubOAuthCode(code)
     }
   }, [response])
 
