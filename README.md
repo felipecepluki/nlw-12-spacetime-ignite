@@ -13,7 +13,18 @@ This is the 12th NLW (Next Level Week) organized for free by Rocketseat, with th
 <br />
 [ x ] Class 04 - Integrating web and mobile projects
 <br />
-[] Class 05 - The Next Level
+[ x ] Class 05 - The Next Level
+
+<br />
+Challenges:
+
+[] Edit Memory
+<br />
+[] Link to share Memory
+<br />
+[] Select Date of Memory (Expo Date Picker to Mobile)
+<br />
+[] Responsive Design
 
 ## Technologies
 
